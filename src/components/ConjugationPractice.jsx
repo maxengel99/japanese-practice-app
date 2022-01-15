@@ -1,32 +1,53 @@
 import React from 'react';
 import { useState } from 'react';
 import { Verbs, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
+import './ConjugationPractice.scss';
 
 export const ConjugationPractice = () => {
-    const [verb, setVerb] = useState(Verbs[Object.keys(Verbs)[Math.floor(Math.random() * Object.keys(Verbs).length)]]);
-    const [verbForm, setVerbForm] = useState(VerbForms[Object.keys(VerbForms)[Math.floor(Math.random() * Object.keys(VerbForms).length)]]);
-    const [verbDegree, setVerbDegree] = useState(VerbDegrees[Object.keys(VerbDegrees)[Math.floor(Math.random() * Object.keys(VerbDegrees).length)]]);
-    const [expectedAnswer, setExpectedAnswer] = useState(generateExpectedAnswer(verb, VerbForms.PRESENT, verbDegree));
+    const getRandomElement = (elements) => elements[Object.keys(elements)[Math.floor(Math.random() * Object.keys(elements).length)]];
+    
+    const [verb, setVerb] = useState(getRandomElement(Verbs));
+    const [verbForm, setVerbForm] = useState(getRandomElement(VerbForms));
+    const [verbDegree, setVerbDegree] = useState(getRandomElement(VerbDegrees));
+    // const [expectedAnswer, setExpectedAnswer] = useState(generateExpectedAnswer(verb, VerbForms.PRESENT, verbDegree));
+    const [expectedAnswer, setExpectedAnswer] = useState('飲む');
+    const [questionState, setQuestionState] = useState('ASK'); // ask, wrong, correct
     const [input, setInput] = useState('');
 
     const changeInput = e => {
         setInput(e.target.value);
     };
 
+    const resetState = () => {
+        setVerb(getRandomElement(Verbs));
+        setVerbForm(getRandomElement(VerbForms));
+        setVerbDegree(getRandomElement(VerbDegrees));
+        setQuestionState('ASK');
+        setInput('');
+    }
+
     const onKeyPress = e => {
+        e.preventDefault();
         if (e.key === 'Enter') {
-            if (input === expectedAnswer) {
-                console.log('correct answer');
+            if (questionState === 'ASK') {
+                if (input === expectedAnswer) {
+                    setQuestionState('CORRECT');
+                }
+                else {
+                    setQuestionState('WRONG');
+                }   
             }
             else {
-                console.log('wrong');
+                resetState();
             }
         }
     }
     return (
         <div>
-            <h3>{verb.word} - {verbForm} form</h3>
+            <h3 className='question'>{verb.word} - {verbForm} form</h3>
             <input type="text" onChange={changeInput} value={input} onKeyPress={onKeyPress} />
+            {questionState === 'CORRECT' && <h4 className='correct-answer'>Correct!!!</h4>}
+            {questionState === 'WRONG' && <h4 className='incorrect-answer'>Incorrect - should be {expectedAnswer}</h4>}
         </div>
     );
 };
