@@ -1,9 +1,6 @@
+import { toAhLetter, toOhLetter, toEhLetter, toTeLetters } from './LetterMappings';
+
 /**const VerbForms = {
-    PRESENT: 'PRESENT',
-    PAST: 'PAST',
-    TE: 'TE',
-    VOLITIONAL: 'VOLITIONAL',
-    POTENTIAL: 'POTENTIAL',
     PASSIVE: 'PASSIVE',
     CAUSATIVE: 'CAUSATIVE',
     IMPERATIVE: 'IMPERATIVE',
@@ -30,54 +27,6 @@ const VerbDegrees = {
     NEGATIVE: 'NEGATIVE (-)',
 };
 
-const toMaLetter = {
-    く: 'か',
-    す: 'さ',
-    ぶ: 'ば',
-    ぬ: 'な',
-    む: 'ま',
-    ぐ: 'が',
-    う: 'あ',
-    つ: 'た',
-    る: 'ら',
-};
-
-const toTeLetters = {
-    く: 'いて',
-    す: 'して',
-    ぶ: 'んで',
-    ぬ: 'んで',
-    む: 'んで',
-    ぐ: 'いで',
-    う: 'って',
-    つ: 'って',
-    る: 'って',
-};
-
-const toRoLetter = {
-    く: 'こ',
-    す: 'そ',
-    ぶ: 'ぼ',
-    ぬ: 'の',
-    む: 'も',
-    ぐ: 'ご',
-    う: 'お',
-    つ: 'と',
-    る: 'ろ',
-};
-
-const toEhLetter = {
-    く: 'け',
-    す: 'せ',
-    ぶ: 'べ',
-    ぬ: 'ね',
-    む: 'め',
-    ぐ: 'げ',
-    う: 'え',
-    つ: 'て',
-    る: 'れ',
-};
-
 const getRootForm = (verb) => verb.word.substring(0, verb.word.length - 1);
 
 const generatePresentForm = (verb, verbDegree) => {
@@ -96,7 +45,7 @@ const generatePresentForm = (verb, verbDegree) => {
             return word;
         }
         else {
-            return getRootForm(verb) + toMaLetter[word[word.length - 1]] + 'ない';
+            return getRootForm(verb) + toAhLetter[word[word.length - 1]] + 'ない';
         }
     }
 }
@@ -117,7 +66,7 @@ const generatePastForm = (verb, verbDegree) => {
             return getRootForm(verb)+ 'んだ';
         }
         else {
-            return getRootForm(verb) + toMaLetter[word[word.length - 1]] + 'なかった';
+            return getRootForm(verb) + toAhLetter[word[word.length - 1]] + 'なかった';
         }
     }
 }
@@ -138,19 +87,19 @@ const generateTeForm = (verb, verbDegree) => {
             return getRootForm(verb) + toTeLetters[word[word.length - 1]];
         }
         else {
-            return getRootForm(verb) + toMaLetter[word[word.length - 1]] + 'なくて';
+            return getRootForm(verb) + toAhLetter[word[word.length - 1]] + 'なくて';
         }
     }
 }
 
-const generateVolitionalForm = (verb, verbDegree) => {
+const generateVolitionalForm = (verb) => {
     const word = verb.word;
     const type = verb.type;
     if (type === VerbTypes.RU) {
         return getRootForm(verb) + 'よう';
     }
     else {
-        return getRootForm(verb) + toRoLetter[word[word.length - 1]] + 'う';
+        return getRootForm(verb) + toOhLetter[word[word.length - 1]] + 'う';
     }
 };
 
@@ -186,7 +135,7 @@ const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
         return generateTeForm(verb, verbDegree);
     }
     else if (verbForm === VerbForms.VOLITIONAL) {
-        return generateVolitionalForm(verb, verbDegree);
+        return generateVolitionalForm(verb);
     }
     else if (verbForm === VerbForms.POTENTIAL) {
         return generatePotentialForm(verb, verbDegree);
