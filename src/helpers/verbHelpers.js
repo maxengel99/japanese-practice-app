@@ -13,6 +13,7 @@
 const VerbForms = {
     PRESENT: 'PRESENT',
     PAST: 'PAST',
+    TE: 'TE',
 };
 
 const VerbTypes = {
@@ -21,8 +22,8 @@ const VerbTypes = {
 };
 
 const VerbDegrees = {
-    POSITIVE: 'POSITIVE',
-    NEGATIVE: 'NEGATIVE',
+    POSITIVE: 'POSITIVE (+)',
+    NEGATIVE: 'NEGATIVE (-)',
 };
 
 const Verbs = {
@@ -54,41 +55,79 @@ const toMaLetter = {
     る: 'ら',
 };
 
+const toTeLetters = {
+    く: 'いて',
+    す: 'して',
+    ぶ: 'んで',
+    ぬ: 'んで',
+    む: 'んで',
+    ぐ: 'いで',
+    う: 'って',
+    つ: 'って',
+    る: 'って',
+};
+
+const getRootForm = (verb) => verb.word.substring(0, verb.word.length - 1);
 
 const generatePresentForm = (verb, verbDegree) => {
-    if (verb.type === VerbTypes.RU) {
+    const word = verb.word;
+    const type = verb.type;
+    if (type === VerbTypes.RU) {
         if (verbDegree === VerbDegrees.POSITIVE) {
-            return verb.word;
+            return word;
         }
         else {
-            return verb.word.substring(0, verb.word.length - 1) + 'ない';
+            return getRootForm(verb) + 'ない';
         }
     }
     else {
         if (verbDegree == verbDegree.POSITIVE) {
-            return verb.word;
+            return word;
         }
         else {
-            return verb.word.substring(0, verb.word.length - 1) + toMaLetter[verb.word[verb.word.length - 1]] + 'ない';
+            return getRootForm(verb) + toMaLetter[word[word.length - 1]] + 'ない';
         }
     }
 }
 
 const generatePastForm = (verb, verbDegree) => {
-    if (verb.type === VerbTypes.RU) {
+    const word = verb.word;
+    const type = verb.type;
+    if (type === VerbTypes.RU) {
         if (verbDegree === VerbDegrees.POSITIVE) {
-            return verb.word.substring(0, verb.word.length - 1) + 'た';
+            return  getRootForm(verb) + 'た';
         }
         else {
-            return verb.word.substring(0, verb.word.length - 1) + 'なかった';
+            return  getRootForm(verb) + 'なかった';
         }
     }
     else {
         if (verbDegree === VerbDegrees.POSITIVE) {
-            return verb.word.substring(0, verb.word.length - 1) + 'んだ';
+            return getRootForm(verb)+ 'んだ';
         }
         else {
-            return verb.word.substring(0, verb.word.length - 1) + toMaLetter[verb.word[verb.word.length - 1]] + 'なかった';
+            return getRootForm(verb) + toMaLetter[word[word.length - 1]] + 'なかった';
+        }
+    }
+}
+
+const generateTeForm = (verb, verbDegree) => {
+    const word = verb.word;
+    const type = verb.type;
+    if (type === VerbTypes.RU) {
+        if (verbDegree === VerbDegrees.POSITIVE) {
+            return  getRootForm(verb) + 'て';
+        }
+        else {
+            return getRootForm(verb)+ 'なくて';
+        }
+    }
+    else {
+        if (verbDegree === VerbDegrees.POSITIVE) {
+            return getRootForm(verb) + toTeLetters[word[word.length - 1]];
+        }
+        else {
+            return getRootForm(verb) + toMaLetter[word[word.length - 1]] + 'なくて';
         }
     }
 }
@@ -99,6 +138,9 @@ const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
     }
     else if (verbForm === VerbForms.PAST) {
         return generatePastForm(verb, verbDegree);
+    }
+    else if (verbForm ===　VerbForms.TE) {
+        return generateTeForm(verb, verbDegree);
     }
 };
 
