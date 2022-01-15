@@ -1,4 +1,4 @@
-const VerbForms = {
+/**const VerbForms = {
     PRESENT: 'PRESENT',
     PAST: 'PAST',
     TE: 'TE',
@@ -8,6 +8,11 @@ const VerbForms = {
     CAUSATIVE: 'CAUSATIVE',
     IMPERATIVE: 'IMPERATIVE',
     CONDITIONAL: 'CONDITIONAL',
+};**/
+
+const VerbForms = {
+    PRESENT: 'PRESENT',
+    PAST: 'PAST',
 };
 
 const VerbTypes = {
@@ -47,7 +52,8 @@ const toMaLetter = {
     つ: 'た',
     ぬ: 'な',
     る: 'ら',
-}
+};
+
 
 const generatePresentForm = (verb, verbDegree) => {
     if (verb.type === VerbTypes.RU) {
@@ -68,9 +74,31 @@ const generatePresentForm = (verb, verbDegree) => {
     }
 }
 
+const generatePastForm = (verb, verbDegree) => {
+    if (verb.type === VerbTypes.RU) {
+        if (verbDegree === VerbDegrees.POSITIVE) {
+            return verb.word.substring(0, verb.word.length - 1) + 'た';
+        }
+        else {
+            return verb.word.substring(0, verb.word.length - 1) + 'なかった';
+        }
+    }
+    else {
+        if (verbDegree === VerbDegrees.POSITIVE) {
+            return verb.word.substring(0, verb.word.length - 1) + 'んだ';
+        }
+        else {
+            return verb.word.substring(0, verb.word.length - 1) + toMaLetter[verb.word[verb.word.length - 1]] + 'なかった';
+        }
+    }
+}
+
 const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
     if (verbForm === VerbForms.PRESENT) {
         return generatePresentForm(verb, verbDegree);
+    }
+    else if (verbForm === VerbForms.PAST) {
+        return generatePastForm(verb, verbDegree);
     }
 };
 
