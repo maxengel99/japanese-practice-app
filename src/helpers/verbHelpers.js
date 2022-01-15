@@ -14,7 +14,10 @@ const VerbForms = {
     PRESENT: 'PRESENT',
     PAST: 'PAST',
     TE: 'TE',
+    VOLITIONAL: 'VOLITIONAL',
 };
+
+const VerbsDegreeIndependent = [VerbForms.VOLITIONAL];
 
 const VerbTypes = {
     RU: 'RU',
@@ -67,6 +70,18 @@ const toTeLetters = {
     る: 'って',
 };
 
+const toRoLetter = {
+    く: 'こ',
+    す: 'そ',
+    ぶ: 'ぼ',
+    ぬ: 'の',
+    む: 'も',
+    ぐ: 'ご',
+    う: 'お',
+    つ: 'と',
+    る: 'ろ',
+};
+
 const getRootForm = (verb) => verb.word.substring(0, verb.word.length - 1);
 
 const generatePresentForm = (verb, verbDegree) => {
@@ -81,7 +96,7 @@ const generatePresentForm = (verb, verbDegree) => {
         }
     }
     else {
-        if (verbDegree == verbDegree.POSITIVE) {
+        if (verbDegree === verbDegree.POSITIVE) {
             return word;
         }
         else {
@@ -132,6 +147,17 @@ const generateTeForm = (verb, verbDegree) => {
     }
 }
 
+const generateVolitionalForm = (verb, verbDegree) => {
+    const word = verb.word;
+    const type = verb.type;
+    if (type === VerbTypes.RU) {
+        return getRootForm(verb) + 'よう';
+    }
+    else {
+        return getRootForm(verb) + toRoLetter[word[word.length - 1]] + 'う';
+    }
+}
+
 const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
     if (verbForm === VerbForms.PRESENT) {
         return generatePresentForm(verb, verbDegree);
@@ -142,10 +168,14 @@ const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
     else if (verbForm ===　VerbForms.TE) {
         return generateTeForm(verb, verbDegree);
     }
+    else if (verbForm === VerbForms.VOLITIONAL) {
+        return generateVolitionalForm(verb, verbDegree);
+    }
 };
 
 export {
     VerbForms,
+    VerbsDegreeIndependent,
     VerbDegrees,
     Verbs,
     generateExpectedAnswer,

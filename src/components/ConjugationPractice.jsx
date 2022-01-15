@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Verbs, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
+import { Verbs, VerbsDegreeIndependent, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
 import './ConjugationPractice.scss';
 
 export const ConjugationPractice = () => {
@@ -44,10 +44,20 @@ export const ConjugationPractice = () => {
                 resetState();
             }
         }
-    }
+    };
+
+    const getHeader = (verb, verbForm, verbDegree) => {
+        if (VerbsDegreeIndependent.includes(verbForm)) {
+            return `${verb.word} - ${verbForm} form`;
+        }
+        else {
+            return `${verb.word} - ${verbForm} ${verbDegree} form`;
+        }
+    };
+
     return (
         <div>
-            <h3 className='question'>{verb.word} - {verbForm} {verbDegree} form</h3>
+            <h3 className='question'>{getHeader(verb, verbForm, verbDegree)}</h3>
             <input type="text" onChange={changeInput} value={input} onKeyPress={onKeyPress} />
             {questionState === 'CORRECT' && <h4 className='correct-answer'>Correct!!!</h4>}
             {questionState === 'WRONG' && <h4 className='incorrect-answer'>Incorrect - should be {expectedAnswer}</h4>}
