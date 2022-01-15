@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Verbs, VerbsDegreeIndependent, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
+import { VerbsDegreeIndependent, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
+import { Verbs } from '../helpers/VerbsList';
 import './ConjugationPractice.scss';
 
 export const ConjugationPractice = () => {

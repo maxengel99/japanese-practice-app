@@ -15,6 +15,7 @@ const VerbForms = {
     PAST: 'PAST',
     TE: 'TE',
     VOLITIONAL: 'VOLITIONAL',
+    POTENTIAL: 'POTENTIAL',
 };
 
 const VerbsDegreeIndependent = [VerbForms.VOLITIONAL];
@@ -29,32 +30,15 @@ const VerbDegrees = {
     NEGATIVE: 'NEGATIVE (-)',
 };
 
-const Verbs = {
-    食べる: {
-        word: '食べる',
-        type: VerbTypes.RU,
-    },
-    飲む: {
-        word: '飲む',
-        type: VerbTypes.U,
-    },
-};;
-
-const toILetter = {
-    む: 'み',
-    く: 'き',
-    す: 'し',
-    つ: 'ち',
-    ぬ: 'に',
-    る: 'り',
-};
-
 const toMaLetter = {
-    む: 'ま',
     く: 'か',
     す: 'さ',
-    つ: 'た',
+    ぶ: 'ば',
     ぬ: 'な',
+    む: 'ま',
+    ぐ: 'が',
+    う: 'あ',
+    つ: 'た',
     る: 'ら',
 };
 
@@ -80,6 +64,18 @@ const toRoLetter = {
     う: 'お',
     つ: 'と',
     る: 'ろ',
+};
+
+const toEhLetter = {
+    く: 'け',
+    す: 'せ',
+    ぶ: 'べ',
+    ぬ: 'ね',
+    む: 'め',
+    ぐ: 'げ',
+    う: 'え',
+    つ: 'て',
+    る: 'れ',
 };
 
 const getRootForm = (verb) => verb.word.substring(0, verb.word.length - 1);
@@ -156,7 +152,28 @@ const generateVolitionalForm = (verb, verbDegree) => {
     else {
         return getRootForm(verb) + toRoLetter[word[word.length - 1]] + 'う';
     }
-}
+};
+
+const generatePotentialForm = (verb, verbDegree) => {
+    const word = verb.word;
+    const type = verb.type;
+    if (type === VerbTypes.RU) {
+        if (verbDegree === VerbDegrees.POSITIVE) {
+            return getRootForm(verb) + 'られる';
+        }
+        else {
+            return getRootForm(verb) + 'られない';
+        }
+    }
+    else {
+        if (verbDegree === VerbDegrees.POSITIVE) {
+            return getRootForm(verb) + toEhLetter[word[word.length - 1]] + 'る';
+        }
+        else {
+            return getRootForm(verb) + toEhLetter[word[word.length - 1]] + 'ない';
+        }
+    }
+};
 
 const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
     if (verbForm === VerbForms.PRESENT) {
@@ -171,12 +188,15 @@ const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
     else if (verbForm === VerbForms.VOLITIONAL) {
         return generateVolitionalForm(verb, verbDegree);
     }
+    else if (verbForm === VerbForms.POTENTIAL) {
+        return generatePotentialForm(verb, verbDegree);
+    }
 };
 
 export {
     VerbForms,
     VerbsDegreeIndependent,
     VerbDegrees,
-    Verbs,
     generateExpectedAnswer,
+    VerbTypes
 };
