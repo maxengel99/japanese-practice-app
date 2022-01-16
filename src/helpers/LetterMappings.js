@@ -6,7 +6,7 @@ const toAhLetter = {
     ぬ: 'な',
     む: 'ま',
     ぐ: 'が',
-    う: 'あ',
+    う: 'わ',
     つ: 'た',
     る: 'ら',
 };
@@ -47,9 +47,22 @@ const toTeLetters = {
     る: 'って',
 };
 
+const toPastLetters = {
+    く: 'いた',
+    す: 'した',
+    ぶ: 'んだ',
+    ぬ: 'んだ',
+    む: 'んだ',
+    ぐ: 'いだ',
+    う: 'った',
+    つ: 'った',
+    る: 'った',
+};
+
 export {
     toAhLetter,
     toOhLetter,
     toEhLetter,
-    toTeLetters
+    toTeLetters,
+    toPastLetters,
 };
