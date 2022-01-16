@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { VerbsDegreeIndependent, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
+import { VerbsDegreeIndependent, VERB_FORMS, VERB_DEGREES, generateExpectedAnswer } from '../helpers/verbHelpers';
 import { QUESTION_STATES } from '../helpers/QuestionStates';
 import { Verbs } from '../helpers/VerbsList';
 import './ConjugationPractice.scss';
@@ -9,8 +9,8 @@ const getRandomElement = (elements) => elements[Object.keys(elements)[Math.floor
 
 export const ConjugationPractice = () => {    
     const [verb, setVerb] = useState(getRandomElement(Verbs));
-    const [verbForm, setVerbForm] = useState(getRandomElement(VerbForms));
-    const [verbDegree, setVerbDegree] = useState(getRandomElement(VerbDegrees));
+    const [verbForm, setVerbForm] = useState(getRandomElement(VERB_FORMS));
+    const [verbDegree, setVerbDegree] = useState(getRandomElement(VERB_DEGREES));
     const [expectedAnswer, setExpectedAnswer] = useState(generateExpectedAnswer(verb, verbForm, verbDegree));
     const [questionState, setQuestionState] = useState(QUESTION_STATES.ASK);
     const [input, setInput] = useState('');
@@ -21,8 +21,8 @@ export const ConjugationPractice = () => {
 
     const resetState = () => {
         setVerb(getRandomElement(Verbs));
-        setVerbForm(getRandomElement(VerbForms));
-        setVerbDegree(getRandomElement(VerbDegrees));
+        setVerbForm(getRandomElement(VERB_FORMS));
+        setVerbDegree(getRandomElement(VERB_DEGREES));
         setQuestionState(QUESTION_STATES.ASK);
         setInput('');
     }

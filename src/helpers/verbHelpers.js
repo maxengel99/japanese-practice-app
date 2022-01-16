@@ -1,6 +1,6 @@
 import { toAhLetter, toOhLetter, toEhLetter, toTeLetters, toPastLetters } from './LetterMappings';
 
-const VerbForms = {
+const VERB_FORMS = {
     PRESENT: 'PRESENT',
     PAST: 'PAST',
     TE: 'TE',
@@ -12,14 +12,14 @@ const VerbForms = {
     CONDITIONAL: 'CONDITIONAL',
 };
 
-const VerbsDegreeIndependent = [VerbForms.VOLITIONAL, VerbForms.CONDITIONAL];
+const VerbsDegreeIndependent = [VERB_FORMS.VOLITIONAL, VERB_FORMS.CONDITIONAL];
 
-const VerbTypes = {
+const VERB_TYPES = {
     RU: 'RU',
     U: 'U',
 };
 
-const VerbDegrees = {
+const VERB_DEGREES = {
     POSITIVE: 'POSITIVE (+)',
     NEGATIVE: 'NEGATIVE (-)',
 };
@@ -29,8 +29,8 @@ const getRootForm = (verb) => verb.word.substring(0, verb.word.length - 1);
 const generatePresentForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+    if (type === VERB_TYPES.RU) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return word;
         }
         else {
@@ -50,8 +50,8 @@ const generatePresentForm = (verb, verbDegree) => {
 const generatePastForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+    if (type === VERB_TYPES.RU) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return  getRootForm(verb) + 'た';
         }
         else {
@@ -59,7 +59,7 @@ const generatePastForm = (verb, verbDegree) => {
         }
     }
     else {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb)+ toPastLetters[word[word.length - 1]];
         }
         else {
@@ -71,8 +71,8 @@ const generatePastForm = (verb, verbDegree) => {
 const generateTeForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+    if (type === VERB_TYPES.RU) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return  getRootForm(verb) + 'て';
         }
         else {
@@ -80,7 +80,7 @@ const generateTeForm = (verb, verbDegree) => {
         }
     }
     else {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + toTeLetters[word[word.length - 1]];
         }
         else {
@@ -92,7 +92,7 @@ const generateTeForm = (verb, verbDegree) => {
 const generateVolitionalForm = (verb) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
+    if (type === VERB_TYPES.RU) {
         return getRootForm(verb) + 'よう';
     }
     else {
@@ -103,8 +103,8 @@ const generateVolitionalForm = (verb) => {
 const generatePotentialForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+    if (type === VERB_TYPES.RU) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + 'られる';
         }
         else {
@@ -112,7 +112,7 @@ const generatePotentialForm = (verb, verbDegree) => {
         }
     }
     else {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + toEhLetter[word[word.length - 1]] + 'る';
         }
         else {
@@ -124,11 +124,11 @@ const generatePotentialForm = (verb, verbDegree) => {
 const generatePassiveForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
+    if (type === VERB_TYPES.RU) {
         return generatePotentialForm(verb, verbDegree);
     }
     else {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + toAhLetter[word[word.length - 1]] + 'れる';
         }
         else {
@@ -140,8 +140,8 @@ const generatePassiveForm = (verb, verbDegree) => {
 const generateCausativeForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+    if (type === VERB_TYPES.RU) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + 'させる';
         }
         else {
@@ -149,7 +149,7 @@ const generateCausativeForm = (verb, verbDegree) => {
         }
     }
     else {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + toAhLetter[word[word.length - 1]] + 'せる';
         }
         else {
@@ -161,8 +161,8 @@ const generateCausativeForm = (verb, verbDegree) => {
 const generateImperativeForm = (verb, verbDegree) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+    if (type === VERB_TYPES.RU) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + 'ろ';
         }
         else {
@@ -170,7 +170,7 @@ const generateImperativeForm = (verb, verbDegree) => {
         }
     }
     else {
-        if (verbDegree === VerbDegrees.POSITIVE) {
+        if (verbDegree === VERB_DEGREES.POSITIVE) {
             return getRootForm(verb) + toEhLetter[word[word.length - 1]];
         }
         else {
@@ -182,7 +182,7 @@ const generateImperativeForm = (verb, verbDegree) => {
 const generateConditionalForm = (verb) => {
     const word = verb.word;
     const type = verb.type;
-    if (type === VerbTypes.RU) {
+    if (type === VERB_TYPES.RU) {
         return getRootForm(verb) + 'たら';
     }
     else {
@@ -191,39 +191,39 @@ const generateConditionalForm = (verb) => {
 }
 
 const generateExpectedAnswer = (verb, verbForm, verbDegree) => {
-    if (verbForm === VerbForms.PRESENT) {
+    if (verbForm === VERB_FORMS.PRESENT) {
         return generatePresentForm(verb, verbDegree);
     }
-    else if (verbForm === VerbForms.PAST) {
+    else if (verbForm === VERB_FORMS.PAST) {
         return generatePastForm(verb, verbDegree);
     }
-    else if (verbForm ===　VerbForms.TE) {
+    else if (verbForm === VERB_FORMS.TE) {
         return generateTeForm(verb, verbDegree);
     }
-    else if (verbForm === VerbForms.VOLITIONAL) {
+    else if (verbForm === VERB_FORMS.VOLITIONAL) {
         return generateVolitionalForm(verb);
     }
-    else if (verbForm === VerbForms.POTENTIAL) {
+    else if (verbForm === VERB_FORMS.POTENTIAL) {
         return generatePotentialForm(verb, verbDegree);
     }
-    else if (verbForm === VerbForms.PASSIVE) {
+    else if (verbForm === VERB_FORMS.PASSIVE) {
         return generatePassiveForm(verb, verbDegree);
     }
-    else if (verbForm === VerbForms.CAUSATIVE) {
+    else if (verbForm === VERB_FORMS.CAUSATIVE) {
         return generateCausativeForm(verb, verbDegree);
     }
-    else if (verbForm === VerbForms.IMPERATIVE) {
+    else if (verbForm === VERB_FORMS.IMPERATIVE) {
         return generateImperativeForm(verb, verbDegree);
     }
-    else if (verbForm === VerbForms.CONDITIONAL) {
+    else if (verbForm === VERB_FORMS.CONDITIONAL) {
         return generateConditionalForm(verb);
     }
 };
 
 export {
-    VerbForms,
+    VERB_FORMS,
     VerbsDegreeIndependent,
-    VerbDegrees,
+    VERB_DEGREES,
     generateExpectedAnswer,
-    VerbTypes
+    VERB_TYPES
 };
