@@ -1,17 +1,18 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { VerbsDegreeIndependent, VerbForms, VerbDegrees, generateExpectedAnswer, } from '../helpers/verbHelpers';
+import { QUESTION_STATES } from '../helpers/QuestionStates';
 import { Verbs } from '../helpers/VerbsList';
 import './ConjugationPractice.scss';
 
-export const ConjugationPractice = () => {
-    const getRandomElement = (elements) => elements[Object.keys(elements)[Math.floor(Math.random() * Object.keys(elements).length)]];
-    
+const getRandomElement = (elements) => elements[Object.keys(elements)[Math.floor(Math.random() * Object.keys(elements).length)]];
+
+export const ConjugationPractice = () => {    
     const [verb, setVerb] = useState(getRandomElement(Verbs));
     const [verbForm, setVerbForm] = useState(getRandomElement(VerbForms));
     const [verbDegree, setVerbDegree] = useState(getRandomElement(VerbDegrees));
     const [expectedAnswer, setExpectedAnswer] = useState(generateExpectedAnswer(verb, verbForm, verbDegree));
-    const [questionState, setQuestionState] = useState('ASK'); // ask, wrong, correct
+    const [questionState, setQuestionState] = useState(QUESTION_STATES.ASK);
     const [input, setInput] = useState('');
 
     const changeInput = e => {
@@ -22,7 +23,7 @@ export const ConjugationPractice = () => {
         setVerb(getRandomElement(Verbs));
         setVerbForm(getRandomElement(VerbForms));
         setVerbDegree(getRandomElement(VerbDegrees));
-        setQuestionState('ASK');
+        setQuestionState(QUESTION_STATES.ASK);
         setInput('');
     }
 
@@ -33,12 +34,12 @@ export const ConjugationPractice = () => {
     const onKeyPress = e => {
         e.preventDefault();
         if (e.key === 'Enter') {
-            if (questionState === 'ASK') {
+            if (questionState === QUESTION_STATES.ASK) {
                 if (input === expectedAnswer) {
-                    setQuestionState('CORRECT');
+                    setQuestionState(QUESTION_STATES.CORRECT);
                 }
                 else {
-                    setQuestionState('WRONG');
+                    setQuestionState(QUESTION_STATES.WRONG);
                 }   
             }
             else {
@@ -60,8 +61,8 @@ export const ConjugationPractice = () => {
         <div>
             <h3 className='question'>{getHeader(verb, verbForm, verbDegree)}</h3>
             <input type="text" onChange={changeInput} value={input} onKeyPress={onKeyPress} />
-            {questionState === 'CORRECT' && <h4 className='correct-answer'>Correct!!!</h4>}
-            {questionState === 'WRONG' && <h4 className='incorrect-answer'>Incorrect - should be {expectedAnswer}</h4>}
+            {questionState === QUESTION_STATES.CORRECT && <h4 className='correct-answer'>Correct!!!</h4>}
+            {questionState === QUESTION_STATES.WRONG && <h4 className='incorrect-answer'>Incorrect - should be {expectedAnswer}</h4>}
         </div>
     );
 };
